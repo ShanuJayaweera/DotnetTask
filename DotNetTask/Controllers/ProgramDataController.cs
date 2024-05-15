@@ -2,9 +2,7 @@
 using DotNetTask.Interfaces;
 using DotNetTask.Mappers;
 using DotNetTask.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using static DotNetTask.Const.ConstEnums;
 
 namespace DotNetTask.Controllers

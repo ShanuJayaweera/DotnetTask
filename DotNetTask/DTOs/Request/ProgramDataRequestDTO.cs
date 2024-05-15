@@ -1,5 +1,4 @@
-﻿using DotNetTask.Models;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using static DotNetTask.Const.ConstEnums;
 

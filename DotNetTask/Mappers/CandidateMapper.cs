@@ -1,7 +1,6 @@
 ﻿using DotNetTask.DTOs.Request;
 using DotNetTask.Models;
 using static DotNetTask.Const.ConstEnums;
-using System.ComponentModel.DataAnnotations;
 
 namespace DotNetTask.Mappers
 {

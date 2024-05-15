@@ -3,8 +3,6 @@ using DotNetTask.DTOs.Request;
 using DotNetTask.Interfaces;
 using DotNetTask.Mappers;
 using DotNetTask.Models;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.Azure.Cosmos.Serialization.HybridRow;
 using Microsoft.EntityFrameworkCore;
 
 namespace DotNetTask.Repositories

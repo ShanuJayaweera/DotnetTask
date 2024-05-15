@@ -1,6 +1,5 @@
 ﻿using DotNetTask.DTOs.Request;
 using DotNetTask.Models;
-using System.Collections.Generic;
 using static DotNetTask.Const.ConstEnums;
 
 namespace DotNetTask.Mappers
