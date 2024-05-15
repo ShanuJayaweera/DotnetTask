@@ -11,6 +11,7 @@ namespace DotNetTask.Data
         }
 
         public DbSet<ProgramData> ProgramDatas { get; set; }
+        public DbSet<Candidate> Candidates { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,6 +24,14 @@ namespace DotNetTask.Data
 
             });
 
+
+            modelBuilder.Entity<Candidate>(c =>
+            {
+                c.ToContainer("Candidate");
+                c.HasPartitionKey(x => x.ProgramId);
+                c.OwnsMany(q => q.Answers);
+
+            });
         }
     }
 }

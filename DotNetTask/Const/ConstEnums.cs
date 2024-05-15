@@ -13,5 +13,14 @@
             DateQuestions = 5
 
         }
+
+        [Flags]
+        public enum Gender
+        {
+            Female = 0,
+            Male = 1,
+            NotSpecified = 2
+
+        }
     }
 }

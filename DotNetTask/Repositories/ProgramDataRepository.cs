@@ -40,30 +40,39 @@ namespace DotNetTask.Repositories
             var program = await _context.ProgramDatas.Where(p => p.Id == programId && p.ProgramId == programId).SingleOrDefaultAsync();
             if (program != null)
             {
-
-                var questionResult = program.QuestionData.Where(q => q.QuestionId == questionId).SingleOrDefault();
-                if (questionResult != null)
+                // check is QuestionData empty
+                if (program.QuestionData != null)
                 {
-                    // update question
-                    questionResult = questionData.MapEachQuestion();
-                    questionResult.QuestionId = questionId;
-
-                    List<QuestionData> updatedQuiz = new List<QuestionData>();
-
-                    foreach (var quiz in program.QuestionData)
+                    var questionResult = program.QuestionData.Where(q => q.QuestionId == questionId).SingleOrDefault();
+                    if (questionResult != null)
                     {
-                        if (quiz.QuestionId == questionId)
+                        // update question
+                        questionResult = questionData.MapEachQuestion();
+                        questionResult.QuestionId = questionId;
+
+                        List<QuestionData> updatedQuiz = new List<QuestionData>();
+
+                        foreach (var quiz in program.QuestionData)
                         {
-                            updatedQuiz.Add(questionResult);
-                            continue;
+                            if (quiz.QuestionId == questionId)
+                            {
+                                updatedQuiz.Add(questionResult);
+                                continue;
+                            }
+                            updatedQuiz.Add(quiz);
                         }
-                        updatedQuiz.Add(quiz);
+                        program.QuestionData = updatedQuiz;
+                        await _context.SaveChangesAsync();
                     }
-                    program.QuestionData = updatedQuiz;
-                    await _context.SaveChangesAsync();
                 }
+                
                 else
                 {
+                    if (program.QuestionData == null)
+                    {
+                        program.QuestionData = new List<QuestionData>();
+                    }
+                    
                     program.QuestionData.Add(questionData.MapEachQuestion());
                     await _context.SaveChangesAsync();
                 }
@@ -93,6 +102,56 @@ namespace DotNetTask.Repositories
                 }
             }
             return null;
+        }
+
+
+
+        /* 
+         * Get program data
+         * @param programId
+         */
+
+        public async Task<ProgramData> GetProgramAsync(string programId)
+        {
+            var program = await _context.ProgramDatas.Where(p => p.Id == programId && p.ProgramId == programId).FirstOrDefaultAsync();
+            if (program != null)
+            {
+                return program;
+            }
+            return null;
+        }
+
+        /* 
+         * check is question exist
+         * @param programId, questionId
+         */
+        public async Task<bool> IsQuestionExist(string programId, string questionId)
+        {
+            var program = await _context.ProgramDatas.Where(p => p.Id == programId && p.ProgramId == programId).SingleOrDefaultAsync();
+            if (program != null)
+            {
+
+                var questionResult = program.QuestionData.Where(q => q.QuestionId == questionId).SingleOrDefault();
+                if (questionResult != null)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /* 
+         * check is program exist
+         * @param programId
+         */
+        public async Task<bool> IsProgramExist(string programId)
+        {
+            var program = await _context.ProgramDatas.Where(p => p.Id == programId && p.ProgramId == programId).FirstOrDefaultAsync();
+            if (program != null)
+            {
+                return true;
+            }
+            return false;
         }
     }
 }
