@@ -46,6 +46,7 @@ namespace DotNetTask.DTOs.Request
 
     public class QuestionDataDTO
     {
+      
         [DefaultValue(QuestionTypes.YesNoQuestion)]
         public QuestionTypes QuestionType { get; set; }
         public string Question { get; set; }
@@ -54,5 +55,6 @@ namespace DotNetTask.DTOs.Request
         public bool IsMultipleChoice { get; set; }
         [DefaultValue(false)]
         public bool EnableOtherOption { get; set; }
+        public int MaxChoicesAllowed { get; set; }
     }
 }

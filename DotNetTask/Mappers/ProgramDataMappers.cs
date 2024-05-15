@@ -85,20 +85,61 @@ namespace DotNetTask.Mappers
 
             foreach (var question in questionList)
             {
-                var quiz = new QuestionData
-                {
-                    Id = Guid.NewGuid().ToString(),
-                    QuestionType = question.QuestionType,
-                    Question = question.Question,
-                    Choices = question.Choices,
-                    IsMultipleChoice = question.IsMultipleChoice,
-                    EnableOtherOption = question.EnableOtherOption
-                };
-
+                var quiz = MapEachQuestion(question);
                 list.Add(quiz);
             }
 
             return list;
+        }
+
+
+        /* Map question by type one by one
+         * @params question
+         */
+        public static QuestionData MapEachQuestion(this QuestionDataDTO question)
+        {
+
+
+            if(question.QuestionType == QuestionTypes.YesNoQuestion || question.QuestionType == QuestionTypes.ParagraphQuestion || question.QuestionType == QuestionTypes.DateQuestions || question.QuestionType == QuestionTypes.NumericQuestion)
+            {
+                return new QuestionData
+                {
+                    QuestionId = Guid.NewGuid().ToString(),
+                    QuestionType = question.QuestionType,
+                    Question = question.Question
+                };
+            }
+
+
+            if (question.QuestionType == QuestionTypes.DropdownsQuestion)
+            {
+                return new QuestionData
+                {
+                    QuestionId = Guid.NewGuid().ToString(),
+                    QuestionType = question.QuestionType,
+                    Question = question.Question,
+                    Choices = question.Choices,
+                    IsMultipleChoice = question.IsMultipleChoice,
+                    EnableOtherOption = question.EnableOtherOption,
+                };
+            }
+
+
+            if (question.QuestionType == QuestionTypes.MultipleChoiceQuestion)
+            {
+                return new QuestionData
+                {
+                    QuestionId = Guid.NewGuid().ToString(),
+                    QuestionType = question.QuestionType,
+                    Question = question.Question,
+                    Choices = question.Choices,
+                    IsMultipleChoice = question.IsMultipleChoice,
+                    EnableOtherOption = question.EnableOtherOption,
+                    MaxChoicesAllowed = question.MaxChoicesAllowed
+                };
+            }
+
+            return null;
         }
 
     }

@@ -5,6 +5,7 @@ using DotNetTask.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using static DotNetTask.Const.ConstEnums;
 
 namespace DotNetTask.Controllers
 {
@@ -16,6 +17,22 @@ namespace DotNetTask.Controllers
         public ProgramDataController(IProgramDataRepository programDataRepository)
         {
             this._programDataRepository = programDataRepository;
+        }
+
+        /* 
+         * Get Question Types
+         * @param programRequest
+         */
+
+        [HttpGet]
+        public ActionResult GetQuestionTypes()
+        {
+            var values = Enum.GetValues(typeof(QuestionTypes))
+                             .Cast<QuestionTypes>()
+                             .Select(q => new { Name = q.ToString(), Value = (int)q })
+                             .ToDictionary(x => x.Name, x => x.Value);
+
+            return Ok(values);
         }
 
 
@@ -33,5 +50,37 @@ namespace DotNetTask.Controllers
         }
 
 
+        /* 
+         * Question update
+         * @param quiz, programId, questionId
+         */
+
+        [HttpPut("UpdateQuiz/{programId}/{questionId}")]
+        public async Task<ActionResult> UpdateQuestion(QuestionDataDTO quiz, string programId, string questionId)
+        {
+           
+            var result = await _programDataRepository.UpdateQuestionsAsync(quiz, programId, questionId);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
+
+
+        /* 
+         * Question delete
+         * @param programId, questionId
+         */
+        [HttpDelete("DeleteQuiz/{programId}/{questionId}")]
+        public async Task<ActionResult> DeleteQuestion(string programId, string questionId)
+        {
+            var result = await _programDataRepository.DeleteQuestionsAsync(programId, questionId);
+            if (result == null)
+            {
+                return NotFound();
+            }
+            return Ok(result);
+        }
     }
 }

@@ -35,11 +35,17 @@ namespace DotNetTask.Models
 
     public class QuestionData
     {
-        public string Id { get; set; }
+        public string QuestionId { get; set; }
         public QuestionTypes QuestionType { get; set; }
         public string Question { get; set; }
         public List<string> Choices { get; set; }
         public bool IsMultipleChoice { get; set; }
         public bool EnableOtherOption { get; set; }
+        public int MaxChoicesAllowed { get; set; }
+
+        public static implicit operator List<object>(QuestionData v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
